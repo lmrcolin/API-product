@@ -30,27 +30,9 @@ public class Category {
     @Column(name = "status")
     private Integer status;
 
-    /**
-     * Constructor de la clase Category
-     * 
-     * @param id       el id de la categoría
-     * @param category el nombre de la categoría
-     * @param tag      la etiqueta de la categoría
-     * @param status   el estado de la categoría
-     */
-    public Category(Integer category_id, String category, String tag, Integer status) {
-        this.category_id = category_id;
-        this.category = category;
-        this.tag = tag;
-        this.status = status;
-    }
-
-    public Category() {
-    }
-
     // Getters y setters de la clase Category
 
-    public Integer getCategory_Id() {
+    public Integer getCategory_id() {
         return category_id;
     }
 
@@ -85,5 +67,23 @@ public class Category {
     @Override
     public String toString() {
         return "[" + category_id + ", " + category + ", " + tag + ", " + status + "]";
+    }
+
+    /**
+     * Constructor de la clase Category
+     * 
+     * @param id       el id de la categoría
+     * @param category el nombre de la categoría
+     * @param tag      la etiqueta de la categoría
+     * @param status   el estado de la categoría
+     */
+    public Category(Integer category_id, String category, String tag, Integer status) {
+        this.category_id = category_id;
+        this.category = category;
+        this.tag = tag;
+        this.status = status;
+    }
+
+    public Category() {
     }
 }

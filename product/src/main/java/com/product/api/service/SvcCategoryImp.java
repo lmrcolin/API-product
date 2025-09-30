@@ -62,7 +62,7 @@ public class SvcCategoryImp implements SvcCategory {
                 throw new ApiException(org.springframework.http.HttpStatus.NOT_FOUND, "categoria no encontrada");
             }
             Category byName = repo.findByCategory(in.getCategory());
-            if (byName != null && !byName.getCategory_Id().equals(id)) {
+            if (byName != null && !byName.getCategory_id().equals(id)) {
                 throw new ApiException(org.springframework.http.HttpStatus.BAD_REQUEST, "La categoria ya existe");
             }
             repo.update(in.getCategory(), in.getTag(), id);
