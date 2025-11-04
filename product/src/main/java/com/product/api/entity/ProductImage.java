@@ -2,6 +2,8 @@ package com.product.api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,6 +13,8 @@ public class ProductImage {
     @Column(name = "product_id")
     private Integer product_id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_image_id")
     private Integer product_image_id;
 
