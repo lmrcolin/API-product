@@ -1,8 +1,13 @@
+package com.product.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +18,6 @@ import com.product.api.service.SvcProductImage;
 import com.product.exception.ApiException;
 
 import jakarta.validation.Valid;
-//OroductImage[]
 @RestController
 @RequestMapping("/product/{id}/image")
 public class CtrlProductImage {
@@ -36,6 +40,6 @@ public class CtrlProductImage {
 
     @DeleteMapping("/{id}/image/{product-image-id}")
     public ResponseEntity<ApiResponse> deleteProductImage(@PathVariable Integer product_id, Integer product_image_id) {
-        return svc.deleteProductImage(product_image_id);
+        return svc.deleteProductImage(product_id, product_image_id);
     }
 }
