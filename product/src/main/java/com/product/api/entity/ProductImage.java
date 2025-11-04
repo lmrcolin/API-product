@@ -9,10 +9,10 @@ import jakarta.persistence.Table;
 
 public class ProductImage {
     @Column(name = "product_id")
-    private Integer productId;
+    private Integer product_id;
 
-    @Column(name = "image_id")
-    private Integer imageId;
+    @Column(name = "product_image_id")
+    private Integer product_image_id;
 
     @Column(name = "image")
     private String image;
@@ -20,20 +20,20 @@ public class ProductImage {
     @Column(name = "status")
     private Integer status;
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct_id(Integer product_id) {
+        this.product_id = product_id;
     }
 
-    public Integer getImageId() {
-        return imageId;
+    public Integer getProduct_image_id() {
+        return product_image_id;
     }
 
-    public void setImageId(Integer imageId) {
-        this.imageId = imageId;
+    public void setProduct_image_id(Integer product_image_id) {
+        this.product_image_id = product_image_id;
     }
 
     public String getImage() {

@@ -1,13 +1,17 @@
 package com.product.api.service;
 
 import java.util.List;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
+import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.product.api.dto.in.DtoProductIn;
 import com.product.api.dto.out.DtoProductListOut;
 import com.product.api.dto.out.DtoProductOut;
@@ -29,6 +33,11 @@ public class SvcProductImp implements SvcProduct{
 	@Autowired
 	MapperProduct mapper;
 
+	@Autowired
+	RepoProductImage repoProductImage;
+
+	@Value("${app.upload.dir}")
+	private String uploadDir;
 	@Override
 	public ResponseEntity<List<DtoProductListOut>> getProducts() {
 		try {
@@ -43,19 +52,12 @@ public class SvcProductImp implements SvcProduct{
 	public ResponseEntity<DtoProductOut> getProduct(Integer id) {
 		try {
 			validateProductId(id);
-			
-			return new ResponseEntity<>(null, HttpStatus.OK);
+			DtoProductOut product = repo.getProductById(id);
+			String[] images = readProductImagesFiles(id);
+			return new ResponseEntity<>(product, HttpStatus.OK);
 		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
-
-		DtoProductOut product = repo.getProduct(id);
-		if(product == null) {
-			throw new ApiException(HttpStatus.NOT_FOUND, "El id del producto no existe");
-		}
-		String[] images = readProductImagesFiles(id);
-		product.setImages(images);
-		//return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
 	@Override
@@ -133,7 +135,7 @@ public class SvcProductImp implements SvcProduct{
 
 	private String[] readProductImagesFiles(Integer product_id) {
 		try {
-			ProductImage[] productImages = RepoProductImage.findByProductId(product_id);
+			ProductImage[] productImages = repoProductImage.findByProductId(product_id);
 			//Si no hay imagenes, devolver un arreglo vacío
 			if(productImages == null || productImages.length == 0) {
 				return new String[0];
@@ -142,27 +144,23 @@ public class SvcProductImp implements SvcProduct{
 
 			for(int i=0; i<productImages.length; i++) {
 				String imageUrl = productImages[i].getImage();
-			}
-			if(imagesUrl.startsWith("/")){
-				imagesUrl = imagesUrl.substring(1);
-			}
+				if(imageUrl.startsWith("/")){
+					imageUrl = imageUrl.substring(1);
+				}
 
-			Path imagePath = Paths.get(uploadDir, imagesUrl);
-
-			if(!Files.exists(imagePath)){
-				imagesUrl[i] = "";
-				continue;
+				Path imagePath = Paths.get(uploadDir, imagesUrl);
+				if(!Files.exists(imagePath)){
+					imagesUrl[i] = "";
+					continue;
+				}
+				byte[] imageBytes = Files.readAllBytes(imagePath);
+				imagesUrl[i] = Base64.getEncoder().encodeToString(imageBytes);
 			}
-
-			byte[] imageBytes = Files.readAllBytes(imagePath);
-			imagesUrl[i] = Base64.getEncoder().encodeToString(imageBytes);
+			return imagesUrl;
+	    } catch (DataAccessException e){
+			throw new DBAccessException(e);
+		} catch (IOException e){
+		throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer archivo");
 		}
-		return imagesUrl;
-	} catch (DataAccessException e){
-		throw new DBAccessException(e);
-	} catch (IOException e){
-		throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer el archivo");
 	}
 	}
-}
-//devolver las imagenes
