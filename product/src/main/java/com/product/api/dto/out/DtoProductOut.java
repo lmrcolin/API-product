@@ -1,21 +1,22 @@
 package com.product.api.dto.out;
 
-import java.beans.Transient;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Id //id del producto
 @Entity // entidad
 @Table(name = "product") // tabla
 public class DtoProductOut {
+    @Id
     private Integer product_id;
     private String gtin;
+    private String description;
     private float price;
     private Integer stock;
     private String category;
 
-    //@Transient 
+    @Transient 
     private String[] images;
 
     public Integer getProduct_id() {
@@ -64,6 +65,14 @@ public class DtoProductOut {
 
     public void setImages(String[] images) {
         this.images = images;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
