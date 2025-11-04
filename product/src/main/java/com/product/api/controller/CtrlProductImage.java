@@ -38,7 +38,7 @@ public class CtrlProductImage {
         return svc.uploadProductImage(in);
     }
 
-    @DeleteMapping("/{id}/image/{product-image-id}")
+    @DeleteMapping("/{product-image-id}")
     public ResponseEntity<ApiResponse> deleteProductImage(@PathVariable Integer product_id, Integer product_image_id) {
         return svc.deleteProductImage(product_id, product_image_id);
     }

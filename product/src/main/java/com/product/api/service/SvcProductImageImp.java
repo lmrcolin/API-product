@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.product.api.commons.dto.ApiResponse;
 import com.product.api.dto.in.DtoProductImageIn;
@@ -19,6 +20,7 @@ import com.product.api.repository.RepoProductImage;
 import com.product.exception.ApiException;
 import com.product.exception.DBAccessException;
 
+@Service
 public class SvcProductImageImp implements SvcProductImage {
     @Autowired
     RepoProductImage repo;
