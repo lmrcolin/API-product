@@ -1,4 +1,5 @@
 package com.product.api.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,28 +19,31 @@ import com.product.api.service.SvcProductImage;
 import com.product.exception.ApiException;
 
 import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/product/{id}/image")
 public class CtrlProductImage {
     @Autowired
     SvcProductImage svc;
+
     @GetMapping
-    public ResponseEntity<ProductImage[]> getProductImages(@PathVariable Integer id_product) {
-        return svc.getProductImages(id_product);
+    public ResponseEntity<ProductImage[]> getProductImages(@PathVariable("id") Integer id) {
+        return svc.getProductImages(id);
     }
 
-    //verificar y validar el cuerpo que nos pasan @PathVariable Integer id ?????????
     @PostMapping
-    public ResponseEntity<ApiResponse> createProductImage(@Valid @RequestBody DtoProductImageIn in, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public ResponseEntity<ApiResponse> createProductImage(@PathVariable("id") Integer id,
+            @Valid @RequestBody DtoProductImageIn in, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, bindingResult.getFieldError().getDefaultMessage());
         }
-        //in.setProduct_id(id);
+        in.setProduct_id(id);
         return svc.uploadProductImage(in);
     }
 
-    @DeleteMapping("/{product-image-id}")
-    public ResponseEntity<ApiResponse> deleteProductImage(@PathVariable Integer product_id, Integer product_image_id) {
+    @DeleteMapping("/{product_image_id}")
+    public ResponseEntity<ApiResponse> deleteProductImage(@PathVariable("id") Integer product_id,
+            @PathVariable("product_image_id") Integer product_image_id) {
         return svc.deleteProductImage(product_id, product_image_id);
     }
 }
