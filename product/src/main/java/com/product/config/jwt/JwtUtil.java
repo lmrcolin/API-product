@@ -40,6 +40,21 @@ public class JwtUtil {
         return extractClaims(token).get("roles", List.class);
     }
 
+    public Long extractUserId(String token) {
+        Claims claims = extractClaims(token);
+        Long userId = claims.get("userId", Long.class);
+        if (userId == null) {
+            userId = claims.get("id", Long.class);
+            if (userId == null) {
+                Integer idInt = claims.get("id", Integer.class);
+                if (idInt != null) {
+                    userId = idInt.longValue();
+                }
+            }
+        }
+        return userId;
+    }
+
     public boolean isTokenValid(String token, String username) {
         return extractUsername(token).equals(username) && !isTokenExpired(token);
     }

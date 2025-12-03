@@ -29,6 +29,8 @@ public class SecurityConfig {
                                                                                 "/v3/api-docs/**", "/actuator/info",
                                                                                 "/actuator/health")
                                                                 .permitAll()
+                                                                .requestMatchers("/auth/**").permitAll()
+                                                                .requestMatchers("/cart-item/**").authenticated()
                                                                 .requestMatchers(HttpMethod.GET, "/category")
                                                                 .hasAuthority("ADMIN")
                                                                 .requestMatchers(HttpMethod.GET, "/category/active")
