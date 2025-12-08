@@ -35,11 +35,13 @@ public class CtrlCartItem {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteItem(@PathVariable Long id) {
-        return ResponseEntity.ok(svcCartItem.deleteItem(id));
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(svcCartItem.deleteItem(userId, id));
     }
 
     @DeleteMapping
     public ResponseEntity<ApiResponse> clearCart() {
-        return ResponseEntity.ok(svcCartItem.clearCart());
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(svcCartItem.clearCart(userId));
     }
 }

@@ -11,7 +11,7 @@ public interface SvcCartItem {
 
     List<DtoCartItemOut> listItems(Long userId);
 
-    ApiResponse deleteItem(Long id);
+    ApiResponse deleteItem(Long userId, Long id);
 
-    ApiResponse clearCart();
+    ApiResponse clearCart(Long userId);
 }

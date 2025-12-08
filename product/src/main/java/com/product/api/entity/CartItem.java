@@ -15,6 +15,9 @@ public class CartItem {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(name = "gtin")
+    private String gtin;
+
     @Column(nullable = false)
     private int quantity;
 
@@ -23,6 +26,9 @@ public class CartItem {
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    @Column(name = "status")
+    private Integer status;
 
     public Long getId() {
         return id;
@@ -38,6 +44,14 @@ public class CartItem {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public String getGtin() {
+        return gtin;
+    }
+
+    public void setGtin(String gtin) {
+        this.gtin = gtin;
     }
 
     public int getQuantity() {
@@ -62,5 +76,13 @@ public class CartItem {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
